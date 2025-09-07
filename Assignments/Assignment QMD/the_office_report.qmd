@@ -1,27 +1,72 @@
 ---
-title: "The Office - Season-to-Season Viewership"
+title: "The Office"
 format: html
 execute:
-  echo: true       
+  echo: false       
   warning: false
-  error: false
+  error: true
 ---
 
 # *The Office*
 
 *The Office* is a mockumentary sitcom that depicts the everyday lives of office employees at Dunder Mifflin, a fictional paper company in Scranton, Pennsylvania. The show originally aired on NBC from 2005 to 2013.
 
-![The Office Logo](the_office.png){width=400px}
+![Best Boss](the_office.png){width=400px}
 
 ---
 
-## Season-Level Viewership
+## Season-level viewership
 
 ```{python}
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Load the season-level data
 df = pd.read_csv("the_office_views.csv", sep=";")
 
-# Show first few rows
-df.head()
+# Clean column names
+df.columns = df.columns.str.strip()
+
+# Ensure numeric types
+df['season'] = df['season'].astype(int)
+df['views'] = df['views'].astype(float)
+
+# Plot average viewership per season
+plt.figure(figsize=(8,5))
+plt.plot(df['season'], df['views'], marker='o', linestyle='-', color='blue')
+plt.title("The Office: average viewership per season")
+plt.xlabel("Season")
+plt.ylabel("Viewers (millions)")
+plt.xticks(df['season'])
+plt.grid(True)
+plt.show()
+```
+
+---
+
+## Season-to-season changes
+
+```{python}
+# Calculate season-to-season changes
+df['change'] = df['views'].diff()
+
+plt.figure(figsize=(8,5))
+plt.bar(df['season'][1:], df['change'][1:], color='orange')
+plt.title("The Office: season-to-season change in viewership")
+plt.xlabel("Season")
+plt.ylabel("Change in viewers (millions)")
+plt.xticks(df['season'][1:])
+plt.grid(axis='y')
+plt.show()
+```
+
+---
+
+## Observed changes
+
+```{python}
+# Print textual summary of changes
+for i in range(1, len(df)):
+    print(f"From Season {df['season'][i-1]} to Season {df['season'][i]}: change = {df['change'][i]:.2f} million viewers")
+```
+
