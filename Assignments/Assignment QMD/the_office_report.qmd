@@ -1,0 +1,27 @@
+---
+title: "The Office - Season-to-Season Viewership"
+format: html
+execute:
+  echo: true       
+  warning: false
+  error: false
+---
+
+# *The Office*
+
+*The Office* is a mockumentary sitcom that depicts the everyday lives of office employees at Dunder Mifflin, a fictional paper company in Scranton, Pennsylvania. The show originally aired on NBC from 2005 to 2013.
+
+![The Office Logo](the_office.png){width=400px}
+
+---
+
+## Season-Level Viewership
+
+```{python}
+import pandas as pd
+
+# Load the season-level data
+df = pd.read_csv("the_office_views.csv", sep=";")
+
+# Show first few rows
+df.head()
